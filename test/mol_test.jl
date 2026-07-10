@@ -14,16 +14,10 @@ N = 100
 # them requires either an upwind/finite-volume discretization or an explicit
 # solver such as `Vern9()`.
 #
-# `:advdiff3` is also unstable, but only on Julia >= 1.13: on earlier versions
-# the integrator's adaptive step keeps it under control, while changes to
-# floating-point tie-breaking / lowering on 1.13 push the solver over the
-# stiffness threshold and FBDF aborts with `dt < eps`. Tracked conditionally
-# so we keep regression coverage on lts/1.x and don't false-fail on 1.13+.
-const BROKEN_EXAMPLES = if VERSION >= v"1.13-"
-    Set([:adv3, :advdiff3])
-else
-    Set([:adv3])
-end
+const BROKEN_EXAMPLES = Set([:adv3])
+# `:advdiff3` has diffusion, but the third-order term still makes the default
+# FBDF solve hit `dt < eps`; Rodas5P keeps this example covered.
+const EXAMPLE_ALGORITHMS = Dict(:advdiff3 => Rodas5P())
 
 for ex in PSL.all_systems
     @testset "Example: $(ex.name)" begin
@@ -63,7 +57,7 @@ for ex in PSL.all_systems
                     false
                 end
             else
-                sol = solve(prob, FBDF())
+                sol = solve(prob, get(EXAMPLE_ALGORITHMS, ex.name, FBDF()))
                 @test sol.retcode == SciMLBase.ReturnCode.Success
             end
         end

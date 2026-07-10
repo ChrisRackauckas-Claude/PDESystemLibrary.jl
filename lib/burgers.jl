@@ -70,71 +70,40 @@ function burgers_2d()
     u_exact(x, y, t) = 3 / 4 - 1 / (4 * (1 + exp(R * (-t - 4x + 4y) / 32)))
     v_exact(x, y, t) = 3 / 4 + 1 / (4 * (1 + exp(R * (-t - 4x + 4y) / 32)))
     analytic = [
-        u(x, y, t) ~ u_exact(x, y, t),
-        v(x, y, t) ~ v_exact(x, y, t),
+        u(t, x, y) ~ u_exact(x, y, t),
+        v(t, x, y) ~ v_exact(x, y, t),
     ]
 
     eq = [
-        Dt(u(x, y, t)) + u(x, y, t) * Dx(u(x, y, t)) + v(x, y, t) * Dy(u(x, y, t)) ~
-            (1 / R) *
-            (
-            Dxx(
-                u(
-                    x,
-                    y,
-                    t
-                )
-            ) +
-                Dyy(
-                u(
-                    x,
-                    y,
-                    t
-                )
-            )
-        ),
-        Dt(v(x, y, t)) + u(x, y, t) * Dx(v(x, y, t)) + v(x, y, t) * Dy(v(x, y, t)) ~
-            (1 / R) *
-            (
-            Dxx(
-                v(
-                    x,
-                    y,
-                    t
-                )
-            ) +
-                Dyy(
-                v(
-                    x,
-                    y,
-                    t
-                )
-            )
-        ),
+        Dt(u(t, x, y)) + u(t, x, y) * Dx(u(t, x, y)) + v(t, x, y) * Dy(u(t, x, y)) ~
+            (1 / R) * (Dxx(u(t, x, y)) + Dyy(u(t, x, y))),
+        Dt(v(t, x, y)) + u(t, x, y) * Dx(v(t, x, y)) + v(t, x, y) * Dy(v(t, x, y)) ~
+            (1 / R) * (Dxx(v(t, x, y)) + Dyy(v(t, x, y))),
     ]
 
     domains = [
+        t ∈ Interval(t_min, t_max),
         x ∈ Interval(x_min, x_max),
         y ∈ Interval(y_min, y_max),
-        t ∈ Interval(t_min, t_max),
     ]
 
     bcs = [
-        u(x, y, 0) ~ u_exact(x, y, 0),
-        u(0, y, t) ~ u_exact(0, y, t),
-        u(x, 0, t) ~ u_exact(x, 0, t),
-        u(1, y, t) ~ u_exact(1, y, t),
-        u(x, 1, t) ~ u_exact(x, 1, t), v(x, y, 0) ~ v_exact(x, y, 0),
-        v(0, y, t) ~ v_exact(0, y, t),
-        v(x, 0, t) ~ v_exact(x, 0, t),
-        v(1, y, t) ~ v_exact(1, y, t),
-        v(x, 1, t) ~ v_exact(x, 1, t),
+        u(0, x, y) ~ u_exact(x, y, 0),
+        u(t, 0, y) ~ u_exact(0, y, t),
+        u(t, x, 0) ~ u_exact(x, 0, t),
+        u(t, 1, y) ~ u_exact(1, y, t),
+        u(t, x, 1) ~ u_exact(x, 1, t),
+        v(0, x, y) ~ v_exact(x, y, 0),
+        v(t, 0, y) ~ v_exact(0, y, t),
+        v(t, x, 0) ~ v_exact(x, 0, t),
+        v(t, 1, y) ~ v_exact(1, y, t),
+        v(t, x, 1) ~ v_exact(x, 1, t),
     ]
 
     tags = ["2D", "Non-Monotonic", "Viscous", "Burgers", "Advection", "Dirichlet"]
 
     @named burgers_2d = PDESystem(
-        eq, bcs, domains, [t, x, y], [u(x, y, t), v(x, y, t)],
+        eq, bcs, domains, [t, x, y], [u(t, x, y), v(t, x, y)],
         analytic = analytic, metadata = tags
     )
 

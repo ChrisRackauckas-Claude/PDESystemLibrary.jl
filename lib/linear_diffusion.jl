@@ -12,10 +12,10 @@ The equation is given by:
 ```
 """
 function heat_1d1()
-    @variables x t u(..)
-    @parameters D
+    @parameters x t D
+    @variables u(..)
 
-    Dxx = Differential(x)
+    Dxx = Differential(x)^2
     Dt = Differential(t)
 
     eqs = [Dt(u(t, x)) ~ D * Dxx(u(t, x))]
