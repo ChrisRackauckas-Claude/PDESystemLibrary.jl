@@ -1,5 +1,5 @@
 module PDESystemLibrary
-using ModelingToolkit, DomainSets
+using ModelingToolkit, DomainSets, FunctionMaps
 using OrdinaryDiffEq
 using OrdinaryDiffEqSDIRK
 using Interpolations
