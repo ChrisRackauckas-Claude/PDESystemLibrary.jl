@@ -23,6 +23,7 @@ using JET
 #    but the Random stdlib does not declare it `public`; ignored.
 run_qa(
     PDESystemLibrary; explicit_imports = true,
+    api_docs_kwargs = (; rendered = true),
     jet_kwargs = (; target_modules = (PDESystemLibrary,), mode = :typo),
     ei_kwargs = (;
         all_qualified_accesses_are_public = (; ignore = (:seed!,)),  # Random.seed! (Random stdlib, not declared public)

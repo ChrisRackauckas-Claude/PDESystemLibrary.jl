@@ -1,0 +1,6 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+PDESystemLibrary = "d14f9848-fe58-4297-bd22-c1aba6f3000d"
+
+[compat]
+Documenter = "1"
