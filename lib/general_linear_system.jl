@@ -81,7 +81,7 @@ advdiffno3 = build_with_tags(
 )
 
 gen1 = build_with_tags(
-    general_system(rand(4)..., :gen1),
+    general_system(0.1, 0.2, 0.3, 0.4, :gen1),
     [
         "1D",
         "Advection",
@@ -93,7 +93,7 @@ gen1 = build_with_tags(
     ]
 )
 gen2 = build_with_tags(
-    general_system(rand(4)..., :gen2),
+    general_system(0.5, 0.6, 0.7, 0.8, :gen2),
     [
         "1D",
         "Advection",
@@ -105,7 +105,7 @@ gen2 = build_with_tags(
     ]
 )
 gen3 = build_with_tags(
-    general_system(rand(4)..., :gen3),
+    general_system(0.9, 0.15, 0.25, 0.35, :gen3),
     [
         "1D",
         "Advection",
