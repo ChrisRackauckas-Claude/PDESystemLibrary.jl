@@ -1,23 +1,16 @@
 using PDESystemLibrary
 PSL = PDESystemLibrary
 
-using ModelingToolkit, MethodOfLines, DomainSets, OrdinaryDiffEq, NonlinearSolve, Test
+using ModelingToolkit, MethodOfLines, DomainSets, OrdinaryDiffEq, OrdinaryDiffEqSDIRK,
+    NonlinearSolve, Test
 using DomainSets: supremum, infimum
 
 N = 100
 
-# Examples that are known to be numerically unstable with the default FBDF
-# solver and central-difference spatial discretization. These are typically
-# pure-dispersive equations (e.g. `Dt(u) = Dxxx(u)`) where the spatial
-# discretization yields a near-imaginary spectrum that BDF methods handle
-# poorly. These are tracked as broken so the test suite remains green; fixing
-# them requires either an upwind/finite-volume discretization or an explicit
-# solver such as `Vern9()`.
-#
-const BROKEN_EXAMPLES = Set([:adv3])
-# `:advdiff3` has diffusion, but the third-order term still makes the default
-# FBDF solve hit `dt < eps`; Rodas5P keeps this example covered.
-const EXAMPLE_ALGORITHMS = Dict(:advdiff3 => Rodas5P())
+# `:adv3` is pure dispersive, so its central-difference discretization has a
+# near-imaginary spectrum that needs TRBDF2's implicit stability.
+# `:advdiff3` needs a Rosenbrock method for the same reason despite its diffusion.
+const EXAMPLE_ALGORITHMS = Dict(:adv3 => TRBDF2(), :advdiff3 => Rodas5P())
 
 for ex in PSL.all_systems
     @testset "Example: $(ex.name)" begin
@@ -32,34 +25,14 @@ for ex in PSL.all_systems
         elseif length(ivs) == length(ex.ivs)
             disc = MOLFiniteDifference(dxs)
             prob = discretize(ex, disc)
-            if ex.name in BROKEN_EXAMPLES
-                # solve itself may throw on numerically-unstable examples;
-                # wrap in try/catch so @test_broken sees a `false` instead of
-                # an Error when that happens.
-                @test_broken try
-                    NonlinearSolve.solve(prob, NewtonRaphson()).retcode ==
-                        SciMLBase.ReturnCode.Success
-                catch
-                    false
-                end
-            else
-                sol = NonlinearSolve.solve(prob, NewtonRaphson())
-                @test sol.retcode == SciMLBase.ReturnCode.Success
-            end
+            sol = NonlinearSolve.solve(prob, NewtonRaphson())
+            @test sol.retcode == SciMLBase.ReturnCode.Success
         else
             @parameters t
             disc = MOLFiniteDifference(dxs, t)
             prob = discretize(ex, disc)
-            if ex.name in BROKEN_EXAMPLES
-                @test_broken try
-                    solve(prob, FBDF()).retcode == SciMLBase.ReturnCode.Success
-                catch
-                    false
-                end
-            else
-                sol = solve(prob, get(EXAMPLE_ALGORITHMS, ex.name, FBDF()))
-                @test sol.retcode == SciMLBase.ReturnCode.Success
-            end
+            sol = solve(prob, get(EXAMPLE_ALGORITHMS, ex.name, FBDF()))
+            @test sol.retcode == SciMLBase.ReturnCode.Success
         end
     end
 end

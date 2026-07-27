@@ -1,15 +1,11 @@
 module PDESystemLibrary
-using ModelingToolkit, DomainSets, FunctionMaps
-using OrdinaryDiffEq
-using OrdinaryDiffEqSDIRK
-using Interpolations
-
-import SciMLBase
-
-using Markdown
-using Random
-
-Random.seed!(100)
+using CommonSolve: solve
+using Interpolations: Gridded, Linear, Periodic, extrapolate, interpolate
+using IntervalSets: (..), Interval
+using ModelingToolkitBase: @named, @parameters, PDESystem
+using OrdinaryDiffEqSDIRK: TRBDF2
+using SciMLBase: ODEProblem
+using Symbolics: @variables, Differential
 
 all_systems = []
 
@@ -23,11 +19,17 @@ include("../lib/brusselator.jl")
 """
     get_pdesys_with_tags(withtags; without = [], f = all)
 
-Return the PDE systems whose `metadata` tags match `withtags`.
+Return PDE systems whose `metadata` tags match `withtags`.
 
-`withtags` is an iterable of tags to include. By default all requested tags must be
-present. Pass `f = any` to select systems that contain at least one requested tag.
-Use `without` to exclude systems containing any of those tags.
+## Arguments
+
+- `withtags`: An iterable of tags to include in the result.
+
+## Keywords
+
+- `without = []`: Tags that exclude a system from the result.
+- `f = all`: Predicate that combines matches for `withtags`. Use `any` to select
+  systems matching at least one requested tag.
 
 # Examples
 

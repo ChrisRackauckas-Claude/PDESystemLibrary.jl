@@ -4,45 +4,47 @@ authors = ["Alex Jones (xtalax) <alex.jones@xisoft.co.uk> and contributors"]
 version = "0.1.6"
 
 [deps]
-DomainSets = "5b8099bc-c8ec-5219-889f-1d9e522a28bf"
-FunctionMaps = "a85aefff-f8ca-4649-a888-c8e5398bc76c"
+CommonSolve = "38540f10-b2f7-11e9-35d8-d573e4eb0ff2"
 Interpolations = "a98d9a8b-a2ab-59e6-89dd-64a1c18fca59"
-Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
-ModelingToolkit = "961ee093-0014-501f-94e3-6117800e7a78"
-OrdinaryDiffEq = "1dea7af3-3e70-54e6-95c3-0bf5283fa5ed"
+IntervalSets = "8197267c-284f-5f27-9208-e0e47529a953"
+ModelingToolkitBase = "7771a370-6774-4173-bd38-47e70ca0b839"
 OrdinaryDiffEqSDIRK = "2d112036-d095-4a1e-ab9a-08536f3ecdbf"
-Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 SciMLBase = "0bca4576-84f4-4d90-8ffe-ffa030f20462"
+Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
 
 [compat]
+CommonSolve = "0.2"
 DomainSets = "0.7.17, 0.8"
-FunctionMaps = "0.1"
 Interpolations = "0.14, 0.15, 0.16"
+IntervalSets = "0.7"
 Lux = "1"
-Markdown = "1"
 MethodOfLines = "0.11.14, 0.12"
 ModelingToolkit = "11.30.1"
+ModelingToolkitBase = "1"
 NonlinearSolve = "4.12"
 OptimizationOptimJL = "0.3, 0.4"
 OrdinaryDiffEq = "6.80.0, 7"
 OrdinaryDiffEqCore = "4.4"
 OrdinaryDiffEqSDIRK = "1.7, 2"
-Random = "1"
 SafeTestsets = "0.1"
 SciMLBase = "2.69.0, 3.1"
-SciMLTesting = "2.2"
+SciMLTesting = "2.4"
+Symbolics = "7"
 Test = "1"
 julia = "1.10"
 
 [extras]
+DomainSets = "5b8099bc-c8ec-5219-889f-1d9e522a28bf"
 Lux = "b2108857-7c20-44ae-9111-449ecde12c47"
 MethodOfLines = "94925ecb-adb7-4558-8ed8-f975c56a0bf4"
+ModelingToolkit = "961ee093-0014-501f-94e3-6117800e7a78"
 NonlinearSolve = "8913a72c-1f9b-4ce2-8d82-65094dcecaec"
 OptimizationOptimJL = "36348300-93cb-4f02-beb5-3c3902f8871e"
+OrdinaryDiffEq = "1dea7af3-3e70-54e6-95c3-0bf5283fa5ed"
 OrdinaryDiffEqCore = "bbf590c4-e513-4bbe-9b18-05decba2e5d8"
 SafeTestsets = "1bc83da4-3b8d-516f-aca4-4fe02f6d838f"
 SciMLTesting = "09d9d899-5365-40a9-917a-5f67fddea283"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test", "MethodOfLines", "Lux", "NonlinearSolve", "OptimizationOptimJL", "OrdinaryDiffEqCore", "SafeTestsets", "SciMLTesting"]
+test = ["Test", "DomainSets", "MethodOfLines", "Lux", "ModelingToolkit", "NonlinearSolve", "OptimizationOptimJL", "OrdinaryDiffEq", "OrdinaryDiffEqCore", "SafeTestsets", "SciMLTesting"]

@@ -4,6 +4,7 @@ using PDESystemLibrary
 makedocs(;
     modules = [PDESystemLibrary],
     checkdocs = :exports,
+    doctest = true,
     sitename = "PDESystemLibrary.jl",
     format = Documenter.HTML(;
         prettyurls = get(ENV, "CI", "false") == "true",
