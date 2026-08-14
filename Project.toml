@@ -15,7 +15,7 @@ Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
 [compat]
 CommonSolve = "0.2"
 DomainSets = "0.7.17, 0.8"
-Interpolations = "0.14, 0.15, 0.16"
+Interpolations = "0.15, 0.16"
 IntervalSets = "0.7"
 Lux = "1"
 MethodOfLines = "0.11.14, 0.12"
