@@ -30,7 +30,8 @@ for ex in PSL.all_systems
         else
             @parameters t
             disc = MOLFiniteDifference(dxs, t)
-            prob = discretize(ex, disc)
+            sys, tspan = symbolic_discretize(ex, disc)
+            prob = ODEProblem(mtkcompile(sys), nothing, tspan)
             sol = solve(prob, get(EXAMPLE_ALGORITHMS, ex.name, FBDF()))
             @test sol.retcode == SciMLBase.ReturnCode.Success
         end
