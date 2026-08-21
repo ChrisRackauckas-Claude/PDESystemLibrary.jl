@@ -47,4 +47,6 @@ function get_pdesys_with_tags(withtags; without = [], f = all)
 end
 
 export get_pdesys_with_tags
+
+include("precompile.jl")
 end # module PDESystemLibrary
