@@ -4,8 +4,11 @@ using Interpolations: Gridded, Linear, Periodic, extrapolate, interpolate
 using IntervalSets: (..), Interval
 using ModelingToolkitBase: @named, @parameters, PDESystem
 using OrdinaryDiffEqSDIRK: TRBDF2
+import RuntimeGeneratedFunctions
 using SciMLBase: ODEProblem
 using Symbolics: @variables, Differential
+
+RuntimeGeneratedFunctions.init(@__MODULE__)
 
 all_systems = []
 

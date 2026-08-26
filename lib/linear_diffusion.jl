@@ -35,7 +35,7 @@ function heat_1d1()
 
     @named heat_1d1 = PDESystem(
         eqs, bcs, domains, [t, x], [u(t, x)], [D => 1.0],
-        analytic = analytic, metadata = tags
+        analytic = analytic, metadata = tags, eval_module = @__MODULE__
     )
 
     return heat_1d1
@@ -85,7 +85,7 @@ function heat_1d_neumann()
     # PDE system
     return @named pdesys = PDESystem(
         eq, bcs, domains, [t, x], [u(t, x)], analytic = analytic,
-        metadata = tags
+        metadata = tags, eval_module = @__MODULE__
     )
 end
 push!(all_systems, heat_1d_neumann())
