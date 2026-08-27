@@ -38,7 +38,7 @@ function inviscid_burgers_monotonic()
 
     @named inviscid_burgers_monotonic = PDESystem(
         eq, bcs, domains, [t, x], [u(t, x)];
-        analytic = analytic, metadata = tags
+        analytic = analytic, metadata = tags, eval_module = @__MODULE__
     )
 
     return inviscid_burgers_monotonic
@@ -104,7 +104,7 @@ function burgers_2d()
 
     @named burgers_2d = PDESystem(
         eq, bcs, domains, [t, x, y], [u(t, x, y), v(t, x, y)],
-        analytic = analytic, metadata = tags
+        analytic = analytic, metadata = tags, eval_module = @__MODULE__
     )
 
     return burgers_2d
