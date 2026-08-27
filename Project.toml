@@ -33,7 +33,7 @@ RuntimeGeneratedFunctions = "0.5"
 SafeTestsets = "0.1"
 SciMLBase = "3.1"
 SciMLTesting = "2.4"
-Symbolics = "7"
+Symbolics = "7.37"
 Test = "1"
 julia = "1.10"
 
